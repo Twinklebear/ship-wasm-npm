@@ -42,7 +42,7 @@ jobs:
         working-directory: ${{ github.workspace }}/web/
         run: |
           npm i
-          npm link ${{ github.working }}/npm_package/
+          npm link ../npm_package/
           npm run build
 
       - name: Upload Web App Dist
