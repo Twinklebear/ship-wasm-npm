@@ -30,16 +30,19 @@ jobs:
           emcmake cmake .. -DCMAKE_BUILD_TYPE=Release
 
 
-      - name: Build C++
+      - name: Build C++ and NPM Package
         working-directory: ${{ github.workspace }}/cmake-build
         run: |
           source ../emsdk/emsdk_env.sh
           make
 
+      # Build the web app and link it with our local build of the
+      # npm package
       - name: Build Web App Dist
         working-directory: ${{ github.workspace }}/web/
         run: |
           npm i
+          npm link ${{ github.working }}/npm_package/
           npm run build
 
       - name: Upload Web App Dist

@@ -1,7 +1,7 @@
 {
-    "name": "webgpu-cpp-frontend",
+    "name": "build-ship-dbg-wasm-fe",
     "version": "1.0.0",
-    "description": "WebGPU C++ Frontend app",
+    "description": "Build Ship Debug Wasm Frontend App",
     "main": "main.js",
     "scripts": {
         "build": "webpack",
@@ -21,6 +21,6 @@
         "webpack-dev-server": "^4.15.1"
     },
     "dependencies": {
-        "@webgpu/types": "^0.1.40"
+        "@twinklebear/wasm_demo_package": "^1.0.0"
     }
 }

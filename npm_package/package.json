@@ -1,0 +1,22 @@
+{
+  "name": "@twinklebear/wasm_demo_package",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean_dist": "rm -rf ./dist",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "Will Usher <will@willusher.io>",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.92.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
