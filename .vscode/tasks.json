@@ -21,13 +21,23 @@
       }
     },
     {
+      "label": "npm_link",
+      "type": "shell",
+      "command": "npm link ../npm_package",
+      "dependsOn": ["npm_install", "build"],
+      "isBuildCommand": true,
+      "options": {
+        "cwd": "${workspaceFolder}/web"
+      }
+    }
+    {
       "label": "run_app",
       "type": "shell",
       "command": "npm run serve",
       "options": {
         "cwd": "${workspaceFolder}/web"
       },
-      "dependsOn": ["npm_install", "build"],
+      "dependsOn": ["npm_link"],
       "isBackground": true,
       "problemMatcher": {
         "fileLocation": "autodetect",
