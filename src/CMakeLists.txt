@@ -61,7 +61,12 @@ add_custom_target(
 
 add_custom_target(
   npm_publish
-  DEPENDS build_npm_package
+  DEPENDS copy_wasm_to_package ${NPM_PACKAGE_SRC}
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/npm_package
+  COMMAND npm i
+  # First clean out the dist directory so we don't package
+  # old wasm binaries
+  COMMAND npm run clean_dist
+  COMMAND npm run build
   COMMAND npm publish)
 
