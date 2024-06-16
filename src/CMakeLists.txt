@@ -58,3 +58,10 @@ add_custom_target(
   build_npm_package ALL
   DEPENDS ${PACKAGE_OUT_DIR}/dist/index.js
   COMMENT "Building npm package")
+
+add_custom_target(
+  npm_publish
+  DEPENDS build_npm_package
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/npm_package
+  COMMAND npm publish)
+
