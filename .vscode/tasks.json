@@ -29,7 +29,7 @@
       "options": {
         "cwd": "${workspaceFolder}/web"
       }
-    }
+    },
     {
       "label": "run_app",
       "type": "shell",
