@@ -34,9 +34,8 @@ set(NPM_PACKAGE_DIR ${PROJECT_SOURCE_DIR}/npm_package)
 set(PACKAGE_OUT_DIR ${NPM_PACKAGE_DIR}/src/cpp)
 
 add_custom_command(
-  DEPENDS app
+  DEPENDS app ${PROJECT_SOURCE_DIR}/dev/patch_worker_import.sh
   OUTPUT ${PACKAGE_OUT_DIR}/app.js ${PACKAGE_OUT_DIR}/app.wasm
-         ${PROJECT_SOURCE_DIR}/dev/patch_worker_import.sh
   COMMAND cmake -E make_directory ${PACKAGE_OUT_DIR}
   # Apply patch to the worker import line emscripten generates to work with
   # webpack
