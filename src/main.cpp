@@ -1,11 +1,15 @@
 #include <array>
+#include <chrono>
 #include <cstdint>
 #include <iostream>
+#include <thread>
 
 #include <GL/gl.h>
 #include <emscripten/emscripten.h>
 #include <emscripten/html5.h>
 #include <emscripten/html5_webgl.h>
+
+int x = 0;
 
 // Utility to convert an HSV color to RGB
 std::array<float, 3> hsv_to_rgb(const std::array<float, 3> &hsv);
@@ -36,6 +40,15 @@ int main(int argc, const char **argv)
     // Start the app loop
     emscripten_set_main_loop_arg(app_loop, nullptr, -1, 0);
 
+    std::thread thread_test([]() {
+        while (true) {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            std::cout << "thread update x\n";
+            ++x;
+        }
+    });
+    thread_test.detach();
+
     return 0;
 }
 
@@ -49,6 +62,8 @@ void app_loop(void *)
 
     glClearColor(rgb[0], rgb[1], rgb[2], 1.f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    std::cout << "x = " << x << "\n";
 }
 
 std::array<float, 3> hsv_to_rgb(const std::array<float, 3> &hsv)

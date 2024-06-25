@@ -2,16 +2,20 @@ add_executable(app main.cpp)
 
 set_target_properties(app PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON)
 
+target_compile_options(app PRIVATE -pthread)
+
 target_link_options(
   app
   PRIVATE
-  "SHELL:-sENVIRONMENT='web'"
+  "SHELL:-sENVIRONMENT='web,worker'"
   -sEXPORT_ES6
   -sEXPORT_NAME=CppApp
   -sMIN_WEBGL_VERSION=2
   -sMAX_WEBGL_VERSION=2
   -sALLOW_MEMORY_GROWTH=1
   -sINVOKE_RUN=0
+  -pthread
+  -sPTHREAD_POOL_SIZE=1
   # RelWithDebInfo build flags, enable separate dwarf to reduce wasm file size
   $<$<CONFIG:RELWITHDEBINFO>:-gseparate-dwarf=${CMAKE_CURRENT_BINARY_DIR}/app.dwarf>
   $<$<CONFIG:RELWITHDEBINFO>:-g>
@@ -32,7 +36,12 @@ set(PACKAGE_OUT_DIR ${NPM_PACKAGE_DIR}/src/cpp)
 add_custom_command(
   DEPENDS app
   OUTPUT ${PACKAGE_OUT_DIR}/app.js ${PACKAGE_OUT_DIR}/app.wasm
+         ${PROJECT_SOURCE_DIR}/dev/patch_worker_import.sh
   COMMAND cmake -E make_directory ${PACKAGE_OUT_DIR}
+  # Apply patch to the worker import line emscripten generates to work with
+  # webpack
+  COMMAND ${PROJECT_SOURCE_DIR}/dev/patch_worker_import.sh
+          ${CMAKE_CURRENT_BINARY_DIR}/app.js app.js
   COMMAND cmake -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/app.js
           ${CMAKE_CURRENT_BINARY_DIR}/app.wasm ${PACKAGE_OUT_DIR})
 
@@ -69,4 +78,3 @@ add_custom_target(
   COMMAND npm run clean_dist
   COMMAND npm run build
   COMMAND npm publish)
-

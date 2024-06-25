@@ -46,6 +46,13 @@ module.exports = {
             return "[name][ext]";
           },
         },
+        // TODO: seems this is needed to pull in the worker JS file properly
+        {
+          from: "./node_modules/@twinklebear/wasm_demo_package/dist/*.js",
+          to() {
+            return "[name][ext]";
+          },
+        },
       ],
     }),
   ],
